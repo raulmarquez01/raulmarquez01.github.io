@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Portafolio de Raúl Márquez</title>
+<meta name="description" content="Proyectos de Data Science y Machine Learning de Raúl Márquez: regresión, árboles, boosting, NLP, series de tiempo, deep learning y aplicaciones web desplegadas.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Portafolio de Raúl Márquez · Data Science y Machine Learning">
+<meta property="og:description" content="Proyectos del bootcamp de Data Science de 4Geeks Academy con resultados, límites y código en GitHub.">
+<meta property="og:url" content="https://raulmarquez01.github.io/">
+<meta property="og:image" content="https://raulmarquez01.github.io/og.png">
+<meta property="og:locale" content="es_LA">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Layout: una columna de lectura; fichas de ML arriba con su resultado, índices de ejercicios abajo. */
+  :root {
+    --bg: #f2f4f7;
+    --surface: #ffffff;
+    --surface-2: #e8ecf2;
+    --text: #1c2430;
+    --text-muted: #5b6472;
+    --border: #d7dce3;
+    --accent: #2b5b84;
+    --accent-soft: #dfe9f1;
+    --accent-2: #8a620f;
+    --accent-2-soft: #f2e6cd;
+    --accent-3: #3f6e3c;
+    --accent-3-soft: #e1ebe0;
+    --shadow: 0 1px 2px rgba(20, 30, 45, 0.06), 0 8px 24px -12px rgba(20, 30, 45, 0.15);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f141b;
+      --surface: #161d27;
+      --surface-2: #1e2733;
+      --text: #e7ecf3;
+      --text-muted: #93a0b2;
+      --border: #2a3542;
+      --accent: #7bacd6;
+      --accent-soft: #21374a;
+      --accent-2: #e3b14c;
+      --accent-2-soft: #3a3016;
+      --accent-3: #8fc189;
+      --accent-3-soft: #24331f;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0f141b;
+    --surface: #161d27;
+    --surface-2: #1e2733;
+    --text: #e7ecf3;
+    --text-muted: #93a0b2;
+    --border: #2a3542;
+    --accent: #7bacd6;
+    --accent-soft: #21374a;
+    --accent-2: #e3b14c;
+    --accent-2-soft: #3a3016;
+    --accent-3: #8fc189;
+    --accent-3-soft: #24331f;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 40px 64px;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  header.page { display: flex; flex-direction: column; gap: 14px; }
+
+  .eyebrow {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  h1 {
+    font-size: clamp(1.7rem, 4vw, 2.3rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  h2.section-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .section-note { color: var(--text-muted); font-size: 0.92rem; line-height: 1.55; margin: 0; max-width: 64ch; }
+
+  .lede { color: var(--text-muted); font-size: 1.02rem; line-height: 1.6; max-width: 62ch; margin: 0; }
+
+  .stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+
+  .stat {
+    display: flex; align-items: baseline; gap: 6px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 8px 14px; font-size: 0.86rem; color: var(--text-muted);
+  }
+
+  .stat strong {
+    font-family: "JetBrains Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 1rem; color: var(--text); font-weight: 700;
+  }
+
+  .search-bar {
+    position: sticky;
+    top: max(12px, env(safe-area-inset-top, 0px));
+    z-index: 5;
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 10px 14px; box-shadow: var(--shadow);
+  }
+
+  .search-bar svg { flex: none; color: var(--text-muted); }
+
+  #search {
+    flex: 1; border: none; background: transparent; color: var(--text);
+    font-family: inherit; font-size: 0.98rem; outline: none; min-width: 0;
+  }
+
+  #search::placeholder { color: var(--text-muted); }
+
+  #search-count {
+    font-family: "JetBrains Mono", monospace; font-size: 0.78rem;
+    color: var(--text-muted); white-space: nowrap;
+  }
+
+  section.block { display: flex; flex-direction: column; gap: 14px; }
+
+  /* Fichas de proyectos de ML */
+  .cards { display: flex; flex-direction: column; gap: 16px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 20px 18px;
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 12px;
+    min-width: 0;
+  }
+
+  .card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+
+  .tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft);
+    border-radius: 6px; padding: 3px 8px; white-space: nowrap;
+  }
+
+  .tag.eda { color: var(--accent-2); background: var(--accent-2-soft); }
+
+  .card-date { font-family: "JetBrains Mono", monospace; font-size: 0.76rem; color: var(--text-muted); }
+
+  .card h3 { margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; text-wrap: balance; }
+
+  .card-sub { font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: var(--text-muted); word-break: break-all; }
+
+  .card p { margin: 0; font-size: 0.95rem; line-height: 1.6; max-width: 66ch; }
+
+  .metrics { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .metric {
+    display: flex; flex-direction: column; gap: 2px;
+    background: var(--surface-2); border-radius: 8px; padding: 8px 12px; min-width: 0;
+  }
+
+  .metric span { font-size: 0.74rem; color: var(--text-muted); }
+
+  .metric strong {
+    font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums;
+    font-size: 0.98rem; font-weight: 700;
+  }
+
+  .links { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.84rem; font-weight: 600; text-decoration: none;
+    color: var(--accent); border: 1px solid var(--border); background: var(--surface);
+    padding: 7px 12px; border-radius: 8px; white-space: nowrap;
+  }
+
+  .btn:hover { background: var(--surface-2); }
+  .btn:focus-visible, .row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Filas e índices */
+  .list {
+    display: flex; flex-direction: column;
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface);
+  }
+
+  .row {
+    display: flex; align-items: center; gap: 14px; padding: 11px 16px;
+    text-decoration: none; color: var(--text); border-top: 1px solid var(--border);
+  }
+
+  .row:first-child { border-top: none; }
+  .row:hover { background: var(--surface-2); }
+
+  .row-id, .row-badge {
+    font-family: "JetBrains Mono", monospace; font-size: 0.78rem; font-weight: 600;
+    color: var(--repo-accent, var(--accent)); background: var(--repo-accent-soft, var(--accent-soft));
+    border-radius: 6px; padding: 3px 7px; flex: none; text-align: center; white-space: nowrap;
+  }
+
+  .row-id { font-variant-numeric: tabular-nums; min-width: 2.6em; }
+  .row-badge { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; }
+
+  .row-title { flex: 1; min-width: 0; font-size: 0.95rem; }
+
+  .row-slug {
+    display: block; font-family: "JetBrains Mono", monospace; font-size: 0.74rem;
+    color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
+  .row-arrow { flex: none; color: var(--text-muted); opacity: 0; transition: opacity 0.12s ease, transform 0.12s ease; }
+  .row:hover .row-arrow, .row:focus-visible .row-arrow { opacity: 1; transform: translateX(2px); }
+
+  section.repo { display: flex; flex-direction: column; gap: 12px; }
+  .repo-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .repo-head-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .repo-title { display: flex; align-items: center; gap: 8px; font-size: 1.12rem; font-weight: 700; }
+  .repo-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--dot-color, var(--accent)); flex: none; }
+  .repo-path { font-family: "JetBrains Mono", monospace; font-size: 0.86rem; color: var(--text-muted); word-break: break-all; }
+  .repo-desc { color: var(--text-muted); font-size: 0.92rem; margin: 2px 0 0; max-width: 58ch; }
+
+  .empty { padding: 20px 16px; text-align: center; color: var(--text-muted); font-size: 0.92rem; display: none; }
+
+  footer {
+    border-top: 1px solid var(--border); padding-top: 18px;
+    color: var(--text-muted); font-size: 0.84rem; line-height: 1.6;
+  }
+
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+
+  .btn-pdf { cursor: pointer; font-family: inherit; }
+
+  @media print {
+    :root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
+      --bg: #ffffff; --surface: #ffffff; --surface-2: #eef1f5; --text: #1c2430; --text-muted: #4b5563;
+      --border: #cfd5dd; --accent: #2b5b84; --accent-soft: #dfe9f1; --accent-2: #8a620f; --accent-2-soft: #f2e6cd;
+      --accent-3: #3f6e3c; --accent-3-soft: #e1ebe0; --shadow: none; color-scheme: light;
+    }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { padding-block: 0; }
+    .search-bar, .btn-pdf, .row-arrow, #repos, #entregas { display: none !important; }
+    .wrap { max-width: none; gap: 22px; }
+    .card { break-inside: avoid; box-shadow: none; }
+    section.block h2 { break-after: avoid; }
+    .row { break-inside: avoid; }
+  }
+
+  @media (max-width: 480px) {
+    .row-slug { white-space: normal; }
+    .card { padding: 16px 14px; }
+  }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="page">
+    <span class="eyebrow">raulmarquez01 · GitHub · Bootcamp de Data Science, 4Geeks Academy</span>
+    <h1>Portafolio de Raúl Márquez</h1>
+    <p class="lede">Los proyectos del bootcamp con lo que se hizo, el resultado principal y el enlace al repositorio y al notebook. Se amplía al cerrar cada módulo. Última actualización: 13 de noviembre de 2026.</p>
+    <div class="stats" id="stats"></div>
+    <div class="links"><button class="btn btn-pdf" id="pdf-btn" type="button">Descargar PDF</button><a class="btn" href="https://github.com/raulmarquez01" target="_blank" rel="noopener">GitHub ↗</a></div>
+  </header>
+
+  <div class="search-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search" type="text" placeholder="Buscar proyecto, técnica o ejercicio…" autocomplete="off" aria-label="Buscar">
+    <span id="search-count"></span>
+  </div>
+
+  <section class="block" id="ml">
+    <h2 class="section-title">Proyectos de modelado y análisis</h2>
+    <p class="section-note">Cada notebook sigue la misma disciplina: el conjunto de test se usa una sola vez al final, y todo lo demás se decide con validación cruzada sobre el entrenamiento.</p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section class="block" id="bootcamp">
+    <h2 class="section-title">Otros proyectos del bootcamp</h2>
+    <p class="section-note">Ejercicios resueltos y publicados en mis forks. El enlace abre el repositorio; el texto de cada fila resume lo que contiene el commit.</p>
+    <div class="list" id="others-list"></div>
+    <p class="empty" id="others-empty">Ningún proyecto coincide con tu búsqueda.</p>
+  </section>
+
+  <section class="block" id="pending">
+    <h2 class="section-title">Hechos o iniciados, sin publicar todavía</h2>
+    <p class="section-note">En GitHub, estos dos repositorios no muestran historial de commits. Los muestro para que el portafolio no diga más de lo que hay.</p>
+    <div class="list" id="pending-list"></div>
+  </section>
+
+  <section class="block" id="entregas">
+    <h2 class="section-title">Entregas de Python</h2>
+    <div class="list" id="projects-list"></div>
+  </section>
+
+  <main id="repos"></main>
+
+  <footer>
+    Los repositorios son forks personales de <a href="https://github.com/4GeeksAcademy" target="_blank" rel="noopener">4GeeksAcademy</a> bajo la cuenta <a href="https://github.com/raulmarquez01" target="_blank" rel="noopener">github.com/raulmarquez01</a>. Las cifras salen de las conclusiones escritas en cada notebook. Cada enlace abre GitHub en una pestaña nueva.
+  </footer>
+
+</div>
+
+<script>
+  const GH = 'https://github.com/raulmarquez01/';
+  const arrow = '<svg class="row-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>';
+
+  // Proyectos con notebook propio y resultado medible
+  const ml = [
+    {
+      tag: 'Regresión lineal', title: 'Costo de seguros médicos', repo: 'linear-regression-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: '',
+      text: 'Predecir cuánto cobra un seguro médico (charges) a partir de edad, IMC, hijos, región y si la persona fuma. El modelo base explicaba el 72% de la varianza en validación cruzada, pero los residuos mostraban grupos separados: fumadores con IMC alto quedaban subestimados. Añadí una marca de obesidad (IMC ≥ 30) y su interacción con fumar, y el R² en validación cruzada subió a 0,84. Ridge, Lasso, un término de edad al cuadrado y el logaritmo del objetivo no mejoraron, así que quedó el modelo más simple.',
+      metrics: [['R² test', '0,92'], ['R² del modelo base', '0,82'], ['RMSE test', '3.440 USD'], ['MAE test', '2.140 USD']],
+      note: 'Limitación: los errores no son normales ni tienen varianza constante; sirve para estimar el costo medio, no para intervalos de confianza.'
+    },
+    {
+      tag: 'Regresión logística', title: 'Campaña de depósitos del banco', repo: 'logistic-regression-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: '9 oct 2026',
+      text: 'Un banco portugués quiere saber a qué clientes llamar para ofrecer un depósito a largo plazo. Solo el 11,3% contrata, así que el modelo base acertaba el 89,8% pero detectaba apenas 1 de cada 5 compradores. Excluí la duración de la llamada porque solo se conoce al terminar (fuga de información), convertí pdays=999 en una bandera y busqué hiperparámetros con GridSearchCV optimizando F1. Balancear las clases fue lo que movió la métrica; la regularización casi no importó.',
+      metrics: [['Recall (compradores)', '0,209 → 0,645'], ['F1 test', '0,317 → 0,462'], ['AUC', '≈ 0,80'], ['Precisión', '0,359']],
+      note: 'Llamar a los clientes marcados por el modelo da unas 3 veces la tasa base. El umbral de decisión quedó en 0,5 sin calibrar.'
+    },
+    {
+      tag: 'Regresión regularizada', title: 'Prevalencia de diabetes por condado', repo: 'regularized-linear-regression-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: '',
+      text: 'Predecir el porcentaje de adultos con diabetes en 3.140 condados de EE. UU. con variables demográficas, económicas y de oferta sanitaria. Había multicolinealidad extrema (74 de 76 variables con VIF > 10), así que reduje de 77 a 41 predictoras y comparé regresión lineal, Ridge y Lasso con y sin estandarizar. Todos rindieron casi igual en validación cruzada; elegí Lasso con la regla de 1 error estándar porque conserva 29 de 45 coeficientes con la misma capacidad.',
+      metrics: [['R² test', '0,901'], ['RMSE test', '0,89 pts'], ['MAE test', '0,67 pts'], ['R² validación cruzada', '0,906']],
+      note: 'Son asociaciones, no causalidad: pobreza, ingreso y educación están correlacionados entre sí.'
+    },
+    {
+      tag: 'Árbol de decisión', title: 'Diagnóstico de diabetes (Pima)', repo: 'decision-tree-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: 'oct 2026',
+      text: 'Clasificar pacientes con y sin diabetes. Los ceros imposibles en glucosa, presión, grosor de piel, insulina e IMC se trataron como datos faltantes e imputé con la mediana dentro del pipeline, para que no se filtre información del test. Estratifiqué la partición y probé gini, entropía y log-loss. Al optimizar accuracy el recall quedaba en 0,527, así que cambié el criterio a F1 y el modelo pasó a detectar a 4 de cada 5 pacientes con diabetes. Guardé el pipeline completo en un pickle.',
+      metrics: [['F1 test', '0,672'], ['Recall test', '0,796'], ['Precisión test', '0,581'], ['Accuracy test', '0,727 (base 0,649)']],
+      note: 'El test tiene solo 154 filas y 54 positivos: un paciente mueve el recall casi 2 puntos. Sirve para cribado, no como diagnóstico.'
+    },
+    {
+      tag: 'Random forest', title: 'Diabetes (Pima): bosque contra árbol', repo: 'random-forest-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: 'oct 2026',
+      text: 'Mismo dataset y misma partición que el árbol de decisión, para comparar de forma justa. Barrí n_estimators (10 a 400) y max_depth (2 a sin límite) con validación cruzada estratificada: un bosque con valores por defecto rindió menos que el árbol ajustado. Después busqué en una malla más amplia y class_weight="balanced" fue lo que más subió el F1 (0,670 a 0,702 en validación). Comprobé que el óptimo no estaba en el borde de la malla y, entre combinaciones casi empatadas, elegí los árboles más simples (profundidad 4). El test se usó una sola vez al final. Guardé el pipeline completo en un pickle.',
+      metrics: [['F1 test', '0,672 (árbol: 0,672)'], ['Recall test', '0,778'], ['Precisión test', '0,592'], ['Accuracy test', '0,734 (base 0,649)']],
+      note: 'Empate con el árbol en test: la ventaja en validación cruzada (F1 0,702 contra 0,670) no se confirma con solo 154 filas y 54 positivos. Un bosque no garantiza mejorar a un árbol bien ajustado en un dataset pequeño. Glucosa es la variable más importante (0,371), seguida de IMC (0,188).'
+    },
+    {
+      tag: 'Boosting', title: 'Diabetes (Pima): XGBoost contra bosque y árbol', repo: 'boosting-algorithms-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: 'oct 2026',
+      text: 'Mismo dataset, misma partición y mismo preprocesado que los dos proyectos anteriores. Un XGBoost con valores por defecto rindió menos que el árbol y el bosque ajustados (F1 0,612 en validación cruzada). Barrí n_estimators y learning_rate y luego una malla con profundidad, submuestreo y scale_pos_weight (el equivalente de class_weight): ese peso de la clase positiva fue el cambio que más subió el F1. Repetí la búsqueda en una malla más fina porque el óptimo caía en el borde, y documenté que el submuestreo seguía en el borde. El test se usó una sola vez; guardé el pipeline completo en un pickle y comparé los tres modelos con métricas por clase y matrices de confusión.',
+      metrics: [['F1 test', '0,694 (bosque y árbol: 0,672)'], ['Recall test', '0,796'], ['Precisión test', '0,614'], ['Accuracy test', '0,753 (base 0,649)']],
+      note: 'Gana en las cuatro métricas de test, pero por poco: frente al bosque detecta un caso real más y comete 2 falsos positivos menos, con solo 154 filas y 54 positivos. En validación cruzada queda al nivel del bosque (0,706 contra 0,702), así que la ventaja no es concluyente. Clase mejor predicha: sin diabetes; peor: con diabetes, donde cerca de 4 de cada 10 alertas son falsas.'
+    },
+    {
+      tag: 'Naive Bayes', title: 'Sentimiento de reseñas de Google Play', repo: 'naive-bayes-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: 'oct 2026',
+      text: 'Clasificar como positivas o negativas 890 reseñas de apps de Google Play (65,7% negativas). Limpié el texto (minúsculas, una reseña repetida) y dejé el vectorizador dentro del Pipeline, para que el vocabulario se aprenda solo con el entrenamiento de cada fold. Comparé GaussianNB, MultinomialNB y BernoulliNB: MultinomialNB fue la única adecuada para conteos de palabras (F1 0,682 en validación cruzada, contra 0,566 y 0,475). Después barrí 432 combinaciones de n-gramas, min_df, conteo o presencia, stop words, alpha y fit_prior: el F1 subió a 0,765, sobre todo al conservar las stop words, porque la lista en inglés de sklearn elimina negaciones como not, no y never. Comparé con regresión logística, LinearSVC y bosque aleatorio, usé el test una sola vez y guardé el pipeline completo en un pickle.',
+      metrics: [['F1 test', '0,770'], ['Recall test', '0,770'], ['Precisión test', '0,770'], ['Accuracy test', '0,843 (base 0,657)']],
+      note: 'La regresión logística y LinearSVC quedan a 0,009 de F1 en validación cruzada, un empate técnico; en test la regresión logística saca 0,783, una diferencia de una o dos reseñas. El test tiene 178 reseñas y 61 positivas. Entre las palabras más informativas aparecen nombres de apps (birds, angry, slack, wechat), así que parte de lo aprendido es la app y no el sentimiento. Una bolsa de palabras no entiende la negación: «not bad at all» sale negativa.'
+    },
+    {
+      tag: 'K vecinos más cercanos', title: 'Calidad de vino tinto: baja, media o alta', repo: 'k-nearest-neighbors-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: 'oct 2026',
+      text: 'Clasificar 1.359 vinos tintos en calidad baja (≤4), media (5-6) o alta (≥7) a partir de 11 medidas fisicoquímicas. Quité 240 duplicados antes de dividir, porque en KNN un gemelo en el entrenamiento queda a distancia 0 y filtra la respuesta. Como el 81,6% del test es «media», evalué con F1 macro y recall por clase, no con accuracy. Dejé el escalador dentro del Pipeline: escalar subió el F1 macro de 0,36 a 0,46. Barrí K de 1 a 30 y una malla de 540 combinaciones (escalador, K, pesos y métrica): MinMaxScaler, K=3, pesos por distancia y distancia euclídea dieron F1 macro 0,503 en validación cruzada. Comparé con regresión logística y bosque aleatorio balanceados, usé el test una sola vez y guardé el pipeline completo en un pickle, con una función predict_wine_quality que lo usa.',
+      metrics: [['F1 macro test', '0,565 (siempre «media»: 0,300)'], ['Accuracy test', '0,835 (base 0,816)'], ['Recall clase alta', '0,57 (21 de 37)'], ['Recall clase baja', '0,15 (2 de 13)']],
+      note: 'La ganancia sobre K=5 escalado (0,04 de F1 macro) cae dentro del ruido de la validación cruzada (desviación 0,055), y el bosque balanceado rindió igual en validación (0,517). El test tiene solo 13 vinos «baja» y 37 «alta», así que las cifras por clase son muy ruidosas. Clase mejor predicha: media; peor: baja, que las 11 variables casi no separan.'
+    },
+    {
+      tag: 'K-means', title: 'Segmentación de distritos de California', repo: 'k-means-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: 'oct 2026',
+      text: 'Agrupar 20.640 distritos de California en 6 grupos con K-means usando solo ingreso mediano, latitud y longitud, asignar los grupos del test y entrenar un modelo supervisado que los reproduzca. Escalé las variables dentro de un Pipeline y usé 10 inicializaciones: con una sola, dos semillas dan agrupaciones distintas (ARI mínimo 0,59); con diez, casi idénticas (0,97). Los seis grupos se leen como zona más nivel de ingreso: Los Ángeles de ingreso muy alto (453 distritos), Bahía de San Francisco y sur de Los Ángeles de ingreso medio-alto, y costa sur, norte y valle central de ingreso bajo. Los 4.128 distritos de test se reparten como en train (diferencia máxima de 1,9 puntos). El modelo supervisado usa solo las tres variables originales, sin la columna del grupo, y guardé ambos modelos con pickle y comprobé que recargados dan lo mismo.',
+      metrics: [['Accuracy del árbol (test)', '0,994'], ['F1 macro del árbol (test)', '0,990'], ['Silueta K=6 (K=2)', '0,40 (0,54)'], ['Estabilidad con 10 inicializaciones', 'ARI mínimo 0,97']],
+      note: 'K=6 lo fija el enunciado, no los datos: la silueta es mayor con K=2 y no hay codo, así que los grupos son una partición útil de una nube continua. Sin etiquetas verdaderas el agrupamiento no tiene accuracy, y el 0,994 mide que el árbol imita a K-means, no que los grupos sean correctos. La solución de referencia daba 1,0 porque metía el grupo como variable de entrada; aquí no.'
+    },
+    {
+      tag: 'Series de tiempo', title: 'Pronóstico de ventas diarias para dimensionar una bodega', repo: 'alternative-time-series-project',
+      nb: 'notebook/eda.ipynb', date: 'oct 2026',
+      text: 'Pronosticar las ventas diarias de una empresa (366 días, del 3 de septiembre de 2022 al 3 de septiembre de 2023) para planificar el espacio de una bodega nueva. Respondí las cuatro preguntas del enunciado con evidencia: la frecuencia es diaria; hay una tendencia casi perfectamente lineal (una recta de 2,6 ventas por día explica el 99,99 % de la variación); la serie original no es estacionaria (ADF p = 0,986) pero su primera diferencia sí, así que d = 1; el ruido es pequeño (0,56 % de la media), estable y sin memoria. Partí por fecha, no al azar: los últimos 60 días fueron el test. Elegí el ARIMA solo con el entrenamiento, probando 16 combinaciones de p y q con AIC y BIC y una regla de parsimonia fijada de antemano, que dio ARIMA(0,1,1) con constante. Esa constante (la deriva) es imprescindible: sin ella el pronóstico queda plano y falla como repetir el último valor. Reajusté con toda la serie, pronostiqué 90 días y guardé el modelo con pickle, comprobando que recargado da el mismo pronóstico.',
+      metrics: [['MAPE en 60 días de test', '0,25 % (deriva: 0,26 %)'], ['RMSE en test', '2,80 (deriva: 3,10)'], ['Cobertura del intervalo del 95 %', '96,7 % (58 de 60 días)'], ['Pronóstico a 90 días', '1.233 ventas/día (1.227 a 1.240)']],
+      note: 'El ARIMA no es distinguible de simplemente extrapolar una recta: se equivoca menos en 30 de 60 días y la diferencia media es 0,76 errores estándar. Su aporte es un modelo formal con intervalos calibrados y reutilizable. Con un solo año de datos no se puede saber si hay estacionalidad anual, y el intervalo no incluye la incertidumbre de la pendiente ni un cambio estructural (una promoción, una crisis). El enunciado habla de "tensor" por "frecuencia" y menciona gasto de memoria cuando son ventas; lo traté como errores de redacción.'
+    },
+    {
+      tag: 'Deep learning', title: 'Clasificador de perros y gatos con una red convolucional', repo: 'image-classifier-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: 'nov 2026',
+      text: 'Clasificar 25.000 fotos de perros y gatos (Asirra, balanceadas, etiqueta tomada del nombre del archivo) con una red convolucional entrenada desde cero en un Codespace sin GPU. Redimensioné a 96×96 y partí de forma estratificada 70/15/15 con semilla fija (17.500 / 3.750 / 3.750), con una línea base de 50 %. Entrené la misma CNN pequeña (tres bloques Conv2D + MaxPool, 1,7 millones de parámetros) sin y con aumento de datos (volteo, rotación y zoom): en validación pasó de 82,2 % a 86,7 %, y elegí la época 16 por pérdida de validación. Medí VGG16 (50,4 millones de parámetros) solo para saber si era viable: unas 30 veces más lenta por paso, unas 27 horas para 20 épocas, así que no la entrené. Como el Codespace se detenía por inactividad y cortó el entrenamiento tres veces, hice el bucle reanudable (historial, mejor modelo y parada temprana guardados en cada época). El conjunto de prueba se usó una sola vez, al final, con matriz de confusión, precisión y recall por clase y errores concretos; guardé los modelos en models/.',
+      metrics: [['Accuracy en prueba', '84,8 % (±1,1 puntos; base 50 %)'], ['Sin aumento → con aumento (validación)', '82,2 % → 86,7 %'], ['Entrenamiento / validación / prueba', '88,4 % / 86,7 % / 84,8 %'], ['Recall gato / perro (prueba)', '0,829 / 0,867']],
+      note: 'La validación quedó 1,9 puntos sobre la prueba, fuera del intervalo: era de esperar, porque se usó para elegir época y modelo, y por eso reporto la prueba. Con 88 % hasta en entrenamiento, el límite es la capacidad del modelo y no la memorización. Corrió a 96×96, en CPU, con un máximo de 20 épocas y sin pesos preentrenados; el siguiente paso natural sería transfer learning. En la época 20 el accuracy de entrenamiento saltó a 90,2 % sin que identificara la causa; no afecta la elección, que fue la época 16.'
+    },
+    {
+      tag: 'NLP y SVM', title: 'Detector de spam por URL con un SVM', repo: 'NLP-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: 'nov 2026',
+      text: 'Detectar si una página web es spam usando solo su URL (2.999 filas, con la columna is_spam). El archivo traía 630 duplicados exactos, 452 de ellos spam: los quité antes de partir, porque la misma URL habría caído en entrenamiento y en prueba. Con las 2.369 URL únicas el spam es el 10,3 % y no el 23,2 %, así que la línea base real es 89,7 % y no 76,8 %. Partí de forma estratificada con semilla 42 y puse el TF-IDF dentro de un Pipeline, de modo que solo se ajusta con el entrenamiento de cada fold. Preprocesé las URL (minúsculas primero, cortar en todo lo que no es una letra, quitar palabras vacías, lematizar con NLTK) y comprobé que no se pierde ninguna letra, un fallo de la lección. Un SVM por defecto detectaba solo el 38 % del spam en validación cruzada; busqué en una rejilla de 32 combinaciones (kernel, C, gamma y class_weight) eligiendo por el F1 de la clase spam. El test se usó una sola vez; guardé el pipeline completo en un pickle y comprobé que recargado da las mismas predicciones.',
+      metrics: [['F1 spam en test', '0,621 (IC 95 %: 0,509 a 0,719)'], ['Recall spam en test', '0,735 (36 de 49)'], ['Precisión spam en test', '0,537'], ['Accuracy en test', '0,907 (base 0,897)']],
+      note: 'El ajuste no mejoró el F1 en test: el SVM por defecto da 0,632 (precisión 0,889, recall 0,490). La mejora de 0,527 a 0,600 en validación cruzada no se confirmó; el ajuste desplazó el equilibrio hacia más recall a costa de precisión, y mantuve el modelo elegido de antemano en vez de cambiarlo tras ver el test. La exactitud apenas supera la línea base y su intervalo la incluye, y la prueba tiene solo 49 URL spam. La URL sola no separa todos los casos: planbonestep.com sale como falso positivo y como falso negativo. Descarté los dígitos aunque distinguían las clases, y la lematización convierte «us» en «u».'
+    },
+    {
+      tag: 'Sistemas de recomendación', title: 'Ingreso del censo de adultos: clasificador y recomendador de trayectorias', repo: 'predicting-your-future-with-data',
+      nb: 'notebook/eda.ipynb', date: 'nov 2026',
+      text: 'Predecir si una persona gana más de 50.000 USD al año con el censo de adultos (32.561 filas) y, con ese modelo, recomendar trayectorias de educación, ocupación, tipo de empleo y horas. Quité 24 duplicados exactos antes de eliminar fnlwgt, traté los «?» de tres columnas como categoría «unknown» y reservé un test estratificado del 20 % que se usó una sola vez. Dejé fuera sexo, raza y país, comparé regresión logística y varios modelos de boosting con validación cruzada solo sobre el entrenamiento y elegí HistGradientBoosting con reglas fijadas antes de ver los resultados. La calibración isotónica solo redujo el error de calibración un 28 %, por debajo del 30 % exigido, así que no calibré. El recomendador es híbrido: una trayectoria (hasta dos cambios; edad, estado civil, relación y capital no cambian) es válida si el modelo sube la probabilidad al menos 0,05, la persona se parece lo bastante a sus 30 vecinos reales más cercanos y la tasa de >50K de esos vecinos no baja. Lo probé con cinco perfiles simulados, entre ellos el del enunciado, y comprobé que el pipeline guardado en models/ da predicciones idénticas al recargarlo en un proceso nuevo.',
+      metrics: [['AUC en test', '0,921 (IC 95 %: 0,914 a 0,928)'], ['F1 clase >50K en test', '0,703 (IC 95 %: 0,684 a 0,722)'], ['Precisión / recall >50K', '0,776 / 0,644'], ['Accuracy en test', '0,869 (base 0,759)']],
+      note: 'Es asociación, no causa: el modelo y los vecinos salen de los mismos datos, así que su acuerdo (Pearson 0,69 en 500 personas) mide coherencia y no demuestra que un cambio funcione. El perfil del enunciado (25 años, bachillerato, 20 h) parte de una probabilidad de 0,003 y recibe solo 2 recomendaciones, apenas sobre el mínimo. El 27 % de 100 personas de prueba no recibe ninguna: son más jóvenes y en su mayoría solteras, y el estado civil pesa mucho en el modelo y no se puede cambiar. El recall de >50K es 0,649 en hombres y 0,614 en mujeres, y los grupos raciales pequeños no permiten concluir. El censo es antiguo y de un solo país.'
+    },
+    {
+      tag: 'Flask y despliegue', title: 'Clasificador de especies de pingüinos como aplicación web', repo: 'flask-penguins-classifier',
+      nb: 'notebook/eda.ipynb', date: 'nov 2026', live: 'https://flask-penguins-classifier.onrender.com',
+      text: 'Clasificar la especie de un pingüino de Palmer (Adelie, Chinstrap o Gentoo) a partir de cuatro medidas, la isla y el sexo, y publicarlo como aplicación web con Flask. Quité 2 de las 344 filas porque no tenían ninguna medida, marqué los 9 sexos faltantes como «unknown» y partí de forma estratificada 80/20 con semilla 42 (273 / 69). El preprocesado va dentro de un Pipeline (escalado de las medidas y one-hot de isla y sexo) con una regresión logística, y se eligió solo con validación cruzada de 5 folds sobre el entrenamiento; el test se usó una sola vez. En los datos las medidas del pico parecen no correlacionadas (−0,23), pero dentro de cada especie la correlación es positiva (0,38, 0,62 y 0,69): es la paradoja de Simpson. La app valida los campos con rangos, muestra la probabilidad de las tres especies y avisa si una medida cae fuera del rango de entrenamiento o si la combinación isla-especie nunca apareció. El modelo se carga una vez con joblib y la app corre con gunicorn en Render.',
+      metrics: [['Accuracy en test', '1,000 (69 de 69; base 0,435)'], ['F1 macro en test', '1,000'], ['Validación cruzada (5 folds)', '0,993 ± 0,009'], ['Solo medidas, sin isla ni sexo (CV)', '0,982']],
+      note: 'Un 100 % sobre 69 ejemplos no es una garantía: con tan pocos casos, Chinstrap tiene unos 14 en el test y un solo error cambiaría su recall en unos 7 puntos. En estos datos la isla separa casi por completo las especies (Gentoo solo en Biscoe, Chinstrap solo en Dream), así que el modelo puede apoyarse en ella; por eso la app avisa ante combinaciones no vistas. Dejé el modelo completo porque así lo fijó la regla elegida de antemano, aunque la variante solo con medidas queda cerca. Render gratis duerme la app tras un rato sin visitas y la primera carga tarda cerca de un minuto.'
+    },
+    {
+      tag: 'Streamlit y despliegue', title: 'Supervivencia en el Titanic como aplicación web con Streamlit', repo: 'streamlit-titanic-classifier',
+      nb: 'notebook/eda.ipynb', date: 'nov 2026', live: 'https://streamlit-titanic-classifier.onrender.com',
+      text: 'Estimar la probabilidad de sobrevivir de un pasajero del Titanic a partir de clase, sexo, edad, familia a bordo, tarifa y puerto de embarque, y publicarlo como aplicación web con Streamlit. Partí de forma estratificada 80/20 con semilla 42 (712 / 179) y dejé el test intacto hasta el final. El preprocesado va dentro de un Pipeline solo con scikit-learn (imputación de la edad con indicador de faltante, log de la tarifa, escalado y one-hot), de modo que el joblib se carga en la app sin código adicional. Comparé modelos con validación cruzada de 5 folds sobre el entrenamiento, elegí el random forest por ser el más simple dentro de una desviación del mejor y ajusté hiperparámetros con una rejilla de 32 combinaciones y una regla fijada antes de ver los resultados (menor profundidad dentro de una desviación del mejor): max_depth=3, min_samples_leaf=5, max_features=0,5. El test se evaluó una sola vez. La app guarda el modelo en caché, deja marcar «edad desconocida» y avisa cuando un valor cae fuera de lo que el modelo vio al entrenar.',
+      metrics: [['Accuracy en test', '0,788 (base 0,615)'], ['F1 de supervivientes en test', '0,694'], ['AUC en test', '0,830'], ['F1 en validación cruzada (5 folds)', '0,728']],
+      note: 'El test tiene 179 pasajeros y unos 69 supervivientes, así que estas cifras tienen un margen amplio: el modelo detecta el 62 % de los supervivientes reales y acierta el 78 % de las veces que predice supervivencia. El ajuste no aportó una mejora demostrable: el mejor F1 de la rejilla (0,750 ± 0,029) y el de los valores por defecto (0,737) difieren menos que la desviación entre folds, y elegí el modelo más simple por regla, no por ser el de mayor puntuación. Son datos de un único barco en 1912, así que describe patrones históricos y no sirve para predecir nada real. Render gratis duerme la app tras un rato sin visitas y la primera carga tarda cerca de un minuto.'
+    },
+    {
+      tag: 'Proyecto final', title: '¿Se puede predecir la dirección del mercado accionario?', repo: 'Prediccion-Mercado-ML',
+      nb: 'Proyecto_Raul_Marquez.ipynb', date: '', live: 'https://prediccion-mercado-ml-mxvfgebfmvfykkyu9t4uar.streamlit.app/',
+      text: 'Clasificar si el precio de una acción sube o baja al día siguiente con indicadores técnicos y, en la versión ampliada, estimar el rendimiento a 1 semana, 1 mes, 3 meses y 6 meses. Los datos vienen de la API pública de Yahoo Finance (60 tickers, 2011 a 2026, 11 sectores GICS, clasificados además como Growth, Value o Index con el P/E y el P/B) y están guardados en una base SQLite de unas 226.000 filas. El modelo de dirección a 1 día usa 22 variables y se eligió con validación cruzada temporal y GridSearch: ganó la regresión logística (C = 0,01). La versión inicial tenía 22 tickers y un solo horizonte; tras una asesoría con el tutor la amplié al universo de 60 tickers, a los cuatro horizontes y a un análisis por sector, estilo y variable. La app de Streamlit permite predecir un ticker o armar una cartera con un monto por acción, y está desplegada en Streamlit Community Cloud. El README del repositorio enlaza la app y documenta cómo reproducir todo.',
+      metrics: [['Accuracy a 1 día (22 tickers, test)', '51,80 % en 16.346 días'], ['AUC a 1 día', '0,4961'], ['Acierto direccional, 1 semana a 6 meses', '53,7 % a 63,6 %'], ['R², 1 semana a 6 meses', '0,0004 a 0,0321']],
+      note: 'A 1 día el modelo rinde al nivel del azar (AUC por debajo de 0,5), lo que es coherente con la hipótesis de mercados eficientes; la predictibilidad se concentra en índices y large caps estables (SPY 57,1 %). El R² es casi cero hasta 1 mes y solo llega a 0,032 a 6 meses. A horizontes largos los rendimientos de fechas consecutivas se solapan y no son observaciones independientes, así que las métricas de test salen más favorables de lo que serían con datos independientes; el propio README lo declara. Growth predice mejor que Value en los cuatro horizontes (brecha de 1,4 a 7,7 puntos), pero es un hallazgo descriptivo sobre 60 acciones. El backtest no incluye costos de transacción y nada de esto es una recomendación de inversión.'
+    }
+  ];
+
+  const eda = [
+    {
+      tag: 'Análisis exploratorio', title: 'Airbnb en Nueva York 2019', repo: 'data-preprocessing-project-tutorial',
+      nb: 'notebook/eda.ipynb', date: '',
+      text: 'EDA completo de 48.895 alojamientos: limpieza, análisis univariante y multivariante, ingeniería de variables y selección. Manhattan y Brooklyn concentran el 85% de los anuncios y el precio es muy asimétrico (mediana 106, máximo 10.000). Con criterios de dominio quité precios de 0, alquileres de más de 500 por noche y estancias mínimas de más de 30 noches (1.770 filas, 3,6%). Seleccioné 6 variables por información mutua, calculada solo con el entrenamiento: tipo de habitación, longitud, número de anuncios del anfitrión, latitud, barrio y noches mínimas.',
+      metrics: [['Filas finales', '47.125'], ['Variables elegidas', '6 de 9'], ['Mayor información mutua', 'room_type 0,305']],
+      note: 'Proyecto de preparación de datos; no incluye modelo.'
+    }
+  ];
+
+  // Otros proyectos del bootcamp (según el commit publicado en cada fork)
+  const others = [
+    { badge: 'Pandas', title: 'Ejercicios de pandas', desc: 'Del 00-welcome al 06.3-group-by', repo: 'python-pandas-tutorial', date: '11 sep 2026' },
+    { badge: 'Pandas', title: 'Limpieza de datos con pandas', desc: 'Ejercicios 01-08 sobre anuncios de Fotocasa (vivienda en España)', repo: 'data-clean-up-pandas-for-beginners-project', date: '15 sep 2026' },
+    { badge: 'Gráficos', title: 'Visualización con matplotlib y seaborn', desc: 'Ejercicios 1-7', repo: 'visualization-exercises-with-matplot-and-seaborn', date: '16 sep 2026' },
+    { badge: 'Scraping', title: 'Web scraping', desc: 'Extraer datos, limpiarlos, guardarlos en SQLite y visualizarlos', repo: 'web-scraping-project-tutorial', date: '18 sep 2026' },
+    { badge: 'API', title: 'Consumo de API del Banco Mundial', desc: 'Indicadores descargados por API, convertidos a DataFrames y visualizados', repo: 'interacting-with-api-python-project-tutorial', date: '22 sep 2026' },
+    { badge: 'Álgebra', title: 'Álgebra lineal con NumPy', desc: 'Ejercicios 01-08: vectores, matrices, producto punto y matricial, transposición, determinantes e inversa', repo: 'linear-algebra-in-python-and-numpy', date: '29 sep 2026' },
+    { badge: 'Probabilidad', title: 'Ejercicios de probabilidad', desc: 'Simulación de suma de dados y muestreo de bolas en cajas', repo: 'probability-exercises-project-in-python', date: '30 sep 2026' },
+    { badge: 'Estadística', title: 'Estadística descriptiva', desc: 'Longitud de títulos de películas y desviación estándar calculada a mano', repo: 'descriptive-statistics-exercises-project-with-python', date: '2 oct 2026' },
+    { badge: 'Inferencia', title: 'Pruebas de hipótesis', desc: 'Prueba t para dos dietas y ANOVA con Tukey HSD para fertilizantes', repo: 'hypothesis-testing-exercises-project-with-python', date: '' },
+    { badge: 'Probabilidad', title: 'Distribuciones de probabilidad', desc: 'Funciones de distribución normal y uniforme', repo: 'probability-distribution-exercises-project-with-python', date: '6 oct 2026' },
+    { badge: 'Algoritmos', title: 'Optimización de algoritmos', desc: 'Procesar texto y listas con Counter, translate y generadores', repo: 'algorithm-optimization-project-machine-learning', date: '6 oct 2026' },
+    { badge: 'SQL', title: 'Análisis exploratorio con SQL', desc: 'Misiones 1-15: consultas, JOINs y manipulación de datos', repo: 'exploratory-sql-analysis-project', date: '' }
+  ];
+
+  const pending = [
+    { badge: 'NumPy', title: 'Tutorial de NumPy', desc: 'Sin historial de commits visible en GitHub', repo: 'numpy-tutorial-exercises' },
+    { badge: 'HTTP', title: 'Peticiones HTTP con requests', desc: 'Sin historial de commits visible en GitHub', repo: 'python-http-requests-api-tutorial-exercises' }
+  ];
+
+  const projects = [
+    { badge: 'PR #135', title: 'Fix the Misspell Challenge', slug: '4GeeksAcademy/python-beginner-programming-exercises · "Inputed" → "Inputted"', url: 'https://github.com/4GeeksAcademy/python-beginner-programming-exercises/pull/135' },
+    { badge: 'PR #2800', title: 'Learn in Public using Pull Requests', slug: '4GeeksAcademy/4GeeksAcademy · site/resumes/raulmarquez01.yml', url: 'https://github.com/4GeeksAcademy/4GeeksAcademy/pull/2800' },
+    { badge: 'Proyecto', title: 'Monthly Sales Analyzer', slug: 'raulmarquez01/monthly-sales-analyzer-project · 5 funciones: totales, promedio, mejor día, umbral, producto top', url: GH + 'monthly-sales-analyzer-project' }
+  ];
+
+  const repos = [
+    {
+      key: 'master', label: 'Máster Python: ejercicios avanzados', path: 'raulmarquez01/master-python-programming-exercises',
+      desc: 'Estructuras de datos, funciones, clases, herencia, métodos estáticos y de clase.',
+      url: GH + 'master-python-programming-exercises',
+      base: GH + 'master-python-programming-exercises/tree/master/exercises/',
+      accent: 'var(--accent)', accentSoft: 'var(--accent-soft)',
+      slugs: ['000-welcome','001-hello_world','002-sum_of_three_numbers','003-area_of_right_triangle','004-hello_harry','005-previous_and_next','006-apple_sharing','006.1-square_value_of_number','007-hours_and_minutes','008-two_timestamps','009-two_digits','010-swap_digits','011-last_two_digits','012-tens_digit','013-sum_of_digits','014-digit_after_decimal_point','015-car_route','016-century','017-total_cost','018-day_of_week','019-digital_clock','020-factorial','021-square_root','022-Integral','023-list-and-tuple','024-class-with-two-methods','025-print-formula','026-two-dimensional-array','027-sequence-of-words','028-sequence-of-lines','029-remove-duplicate-words','030-divisable-binary','031-sum-eigth-digit','032-numbers-of-letters-and-digits','033-number-of-uppercase','034-a_aa_aaa_aaaa','035-square-each-odd-number','036-net-amount','037-validity-of-password','038-sort-tuples-ascending','039-class-that-iterates','040-compute-robot-distance','041-frequency-of-words','042-understanding_classes','042.1-init_and_str_methods','043-inheritance_and_polymorphism','044-static_methods','045-class_methods']
+    },
+    {
+      key: 'beginner', label: 'Python para principiantes', path: 'raulmarquez01/python-beginner-programming-exercises',
+      desc: 'Consola, variables, condicionales, tu primera función y tu primer loop.',
+      url: GH + 'python-beginner-programming-exercises',
+      base: GH + 'python-beginner-programming-exercises/tree/master/exercises/',
+      accent: 'var(--accent-2)', accentSoft: 'var(--accent-2-soft)',
+      slugs: ['00-Welcome','01-Console','02-Declare-Variables','03-Print-Variables-In-The-Console','04-Multiply-Two-Values','05-User-Inputted-Values','06-String-Concatenation','07-Create-a-Basic-HTML','08.1-Your-First-If','08.2-How-Much-The-Wedding-Costs','09-Random-Numbers','10-Calling-Your-First-Function','10.1-Creating-Your-First-Function','11-Create-A-New-Function','12-Rand-From-One-to-Twelve','13-Your-First-Loop','14-Create-A-For-Loop','15-Looping-With-FizzBuzz','16-Random-Colors-Loop','17-Russian-Roulette','18-The-Beatles','19-Bottles-Of-Milk']
+    }
+  ];
+
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+  function parseSlug(slug) {
+    const m = slug.match(/^(\d+(?:\.\d+)?)-(.+)$/);
+    if (!m) return { id: '', title: slug.replace(/[-_]/g, ' ') };
+    const title = m[2].replace(/[-_]/g, ' ').trim();
+    return { id: m[1], title: title.charAt(0).toUpperCase() + title.slice(1) };
+  }
+
+  function makeRow(badge, title, sub, url, searchText, accent, accentSoft) {
+    const row = document.createElement('a');
+    row.className = 'row';
+    row.href = url; row.target = '_blank'; row.rel = 'noopener';
+    row.dataset.search = searchText.toLowerCase();
+    row.style.setProperty('--repo-accent', accent);
+    row.style.setProperty('--repo-accent-soft', accentSoft);
+    row.innerHTML = `<span class="row-badge">${esc(badge)}</span><span class="row-title">${esc(title)}<span class="row-slug">${esc(sub)}</span></span>${arrow}`;
+    return row;
+  }
+
+  // Fichas
+  const cardsEl = document.getElementById('cards');
+  [...ml, ...eda].forEach((p, i) => {
+    const art = document.createElement('article');
+    art.className = 'card';
+    art.dataset.search = (p.tag + ' ' + p.title + ' ' + p.text + ' ' + p.repo).toLowerCase();
+    const metrics = p.metrics.map(m => `<div class="metric"><span>${esc(m[0])}</span><strong>${esc(m[1])}</strong></div>`).join('');
+    art.innerHTML = `
+      <div class="card-top"><span class="tag ${p.tag === 'Análisis exploratorio' ? 'eda' : ''}">${esc(p.tag)}</span>${p.date ? `<span class="card-date">${esc(p.date)}</span>` : ''}</div>
+      <h3>${esc(p.title)}</h3>
+      <div class="card-sub">raulmarquez01/${esc(p.repo)}</div>
+      <p>${esc(p.text)}</p>
+      <div class="metrics">${metrics}</div>
+      <p style="color:var(--text-muted);font-size:0.88rem">${esc(p.note)}</p>
+      <div class="links">
+        <a class="btn" href="${GH}${p.repo}/blob/main/${p.nb}" target="_blank" rel="noopener">Ver notebook ↗</a>
+        <a class="btn" href="${GH}${p.repo}" target="_blank" rel="noopener">Repositorio ↗</a>
+        ${p.live ? `<a class="btn" href="${esc(p.live)}" target="_blank" rel="noopener">App en vivo ↗</a>` : ''}
+      </div>`;
+    cardsEl.appendChild(art);
+  });
+
+  const othersEl = document.getElementById('others-list');
+  others.forEach(o => {
+    othersEl.appendChild(makeRow(o.badge, o.title, o.desc + (o.date ? ' · ' + o.date : ''), GH + o.repo, o.badge + ' ' + o.title + ' ' + o.desc + ' ' + o.repo, 'var(--accent)', 'var(--accent-soft)'));
+  });
+
+  const pendingEl = document.getElementById('pending-list');
+  pending.forEach(o => {
+    pendingEl.appendChild(makeRow(o.badge, o.title, o.desc, GH + o.repo, '', 'var(--text-muted)', 'var(--surface-2)'));
+  });
+
+  const projectsListEl = document.getElementById('projects-list');
+  projects.forEach(p => {
+    projectsListEl.appendChild(makeRow(p.badge, p.title, p.slug, p.url, p.badge + ' ' + p.title + ' ' + p.slug, 'var(--accent-3)', 'var(--accent-3-soft)'));
+  });
+
+  // Índices de ejercicios
+  const reposEl = document.getElementById('repos');
+  let totalExercises = 0;
+  repos.forEach(repo => {
+    totalExercises += repo.slugs.length;
+    const section = document.createElement('section');
+    section.className = 'repo';
+    section.style.setProperty('--repo-accent', repo.accent);
+    section.style.setProperty('--repo-accent-soft', repo.accentSoft);
+    section.style.setProperty('--dot-color', repo.accent);
+    section.innerHTML = `
+      <div class="repo-head">
+        <div class="repo-head-text">
+          <div class="repo-title"><span class="repo-dot"></span>${esc(repo.label)}</div>
+          <div class="repo-path">${esc(repo.path)}</div>
+          <p class="repo-desc">${esc(repo.desc)}</p>
+        </div>
+        <a class="btn" href="${repo.url}" target="_blank" rel="noopener">Ver repositorio ↗</a>
+      </div>
+      <div class="list" data-list></div>
+      <p class="empty" data-empty>Ningún ejercicio de este repositorio coincide con tu búsqueda.</p>`;
+    const list = section.querySelector('[data-list]');
+    repo.slugs.forEach(slug => {
+      const { id, title } = parseSlug(slug);
+      const row = document.createElement('a');
+      row.className = 'row';
+      row.href = repo.base + encodeURIComponent(slug);
+      row.target = '_blank'; row.rel = 'noopener';
+      row.dataset.search = (id + ' ' + title + ' ' + slug).toLowerCase();
+      row.innerHTML = `<span class="row-id">${esc(id)}</span><span class="row-title">${esc(title)}<span class="row-slug">${esc(slug)}</span></span>${arrow}`;
+      list.appendChild(row);
+    });
+    reposEl.appendChild(section);
+  });
+
+  document.getElementById('stats').innerHTML = `
+    <span class="stat"><strong>${ml.length}</strong> proyectos con modelo</span>
+    <span class="stat"><strong>${ml.length + eda.length + others.length}</strong> proyectos publicados</span>
+    <span class="stat"><strong>${totalExercises}</strong> ejercicios de Python</span>`;
+
+  // Búsqueda
+  const searchInput = document.getElementById('search');
+  const searchCount = document.getElementById('search-count');
+  const searchable = Array.from(document.querySelectorAll('[data-search]'));
+
+  function applyFilter() {
+    const q = searchInput.value.trim().toLowerCase();
+    let visible = 0;
+    searchable.forEach(el => {
+      const match = !q || el.dataset.search.includes(q);
+      el.hidden = !match;
+      if (match) visible++;
+    });
+    document.querySelectorAll('section.repo').forEach(section => {
+      const n = section.querySelectorAll('.row:not([hidden])').length;
+      section.querySelector('[data-empty]').style.display = (q && n === 0) ? 'block' : 'none';
+      section.querySelector('[data-list]').hidden = n === 0;
+    });
+    document.getElementById('others-empty').style.display = (q && othersEl.querySelectorAll('.row:not([hidden])').length === 0) ? 'block' : 'none';
+    searchCount.textContent = q ? `${visible}/${searchable.length}` : '';
+  }
+  searchInput.addEventListener('input', applyFilter);
+  document.getElementById('pdf-btn').addEventListener('click', () => window.print());
+</script>
+</body>
+</html>
